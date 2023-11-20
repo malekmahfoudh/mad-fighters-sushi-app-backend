@@ -56,6 +56,7 @@ menuProductSchema.pre('save', async function (next) {
     
 });
 
-const menuProduct = new mongoose.model('Menu',menuProductSchema); 
+const menuProducts = new mongoose.model('Menu',menuProductSchema); 
 
-export default menuProduct ; 
+
+export  {menuProducts }; 
