@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { v4 as uuidv4 } from "uuid";
 
 
 
@@ -20,5 +20,42 @@ import mongoose from "mongoose";
 
 
 const menuProductSchema = new mongoose.Schema({
+    id: {type:String},
+    name: {
+        type:String,
+        required:true,
+        minLength:3,
+        maxLength:30
+    },
+    price:{
+        type:Number,
+        required:true,
+        minLength:3,
+        maxLength:4
+    },
+    image: {
+        type:String,
+    },
+    category: {
+        type:String,
+    },
+    description:{
+        type:String,
+    },
+    featured:{
+        type:Boolean,
+    }
 
 });
+
+
+//middleware before saving in Database 
+menuProductSchema.pre('save', async function (next) {
+ 
+    this.id = uuidv4();
+    
+});
+
+const menuProduct = new mongoose.model('Menu',menuProductSchema); 
+
+export default menuProduct ; 
