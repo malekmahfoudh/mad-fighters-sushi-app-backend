@@ -1,7 +1,7 @@
 import  express from 'express'
 import 'dotenv/config';
 import { connectDb } from "./configs/db.js";
-import { router as mainRoute} from "./router/mainRoutes.js";
+import { router as main} from "./router/main.js";
 const app = express();
 const PORT = process.env.PORT || 3001 ; 
 
@@ -11,7 +11,7 @@ connectDb();
 app.use(express.json());
 
 //the api main routes 
-app.use('/api',mainRoute);
+app.use('/api',main);
 
 
 // wrong url input given from the user 

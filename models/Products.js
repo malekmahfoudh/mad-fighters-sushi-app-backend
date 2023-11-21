@@ -6,14 +6,19 @@ import { v4 as uuidv4 } from "uuid";
 
 // {
 //     "id": 1,
-//      "name": "Sashimi salad",
-//      "price": 12.00,
-//      "image": "sashimi-salad.jpg",
-//      "category": "Cold starters",
-//      "description": "Organic greens topped with market fresh sashimi, wasabi soy vinaigrette.",
-//      "featured": true
+//     "title": "Onigiri",
+//     "price": 40,
+//     "image": "mat.svg",
+//     "category": "starters",
+//     "description": "Japanese rice ball filled with salmon, wrapped in nori.",
+//     "vegetarian": false,
+//     "featured": false,
+//     "info": {
+//         "quantity": 1,
+//         "allergy": "Gluten free",
+//         "spice": "Mild"
+//     }
 // },
-
 
 
 
@@ -21,7 +26,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const menuProductSchema = new mongoose.Schema({
     id: {type:String},
-    name: {
+    title: {
         type:String,
         required:true,
         minLength:3,
@@ -41,22 +46,29 @@ const menuProductSchema = new mongoose.Schema({
     },
     description:{
         type:String,
+        required:true,
     },
     featured:{
         type:Boolean,
+    },
+    vegetarian:{
+        type:Boolean,
+    },
+    info: {
+        quantity: Number,
+        allergy: String,
+        spice: String
     }
-
-});
+    });
 
 
 //middleware before saving in Database 
 menuProductSchema.pre('save', async function (next) {
- 
     this.id = uuidv4();
     
 });
 
-const menuProducts = new mongoose.model('Menu',menuProductSchema); 
+const Products = new mongoose.model('Menu',menuProductSchema); 
 
 
-export  {menuProducts }; 
+export  {Products}; 
