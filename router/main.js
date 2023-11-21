@@ -1,6 +1,7 @@
 import { Router} from "express";
 export const router = Router();
 import { getMenu } from "../services/database-queries.js";
+import { checkProductExistence, validateOrderInput } from "../middleware/data_validation.js";
 
 
 //shows all the products in database 
@@ -31,8 +32,10 @@ router.get('/menu', async (req,res)=> {
 //       ]
 //--- }
 
-router.post('/order',validateOrderInput,async (req,res)=> {
-    const body = req.body; 
+router.post('/order',validateOrderInput,checkProductExistence,async (req,res)=> {
+    const body = req.body;
+
+    
     res.json({
         message:body
     })
