@@ -1,4 +1,4 @@
-import { getProductById } from "../services/database-queries.js";
+import { getProductById } from "../../services/database-queries.js";
 
 //bring the products info from the database and push it to the order in the request. 
 export const getOrderProductsInfo = async (req, res, next) => {

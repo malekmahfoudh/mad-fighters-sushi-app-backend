@@ -1,4 +1,4 @@
-import { isProductExists } from "../services/database-queries.js";
+import { isProductExists } from "../../services/database-queries.js";
 
 export const validateOrderInput = (req,res,next)=> {
     const body = req.body; 
