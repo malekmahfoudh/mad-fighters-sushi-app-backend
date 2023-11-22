@@ -34,6 +34,7 @@ export const checkProductExistence = async (req, res, next) => {
         await Promise.all(order.map(async product => {
             let productExistence = await isProductExists(product.id);
             if (!productExistence) undefinedProducts.push(product.id);
+            
         }));
     }
 
@@ -58,3 +59,5 @@ export const checkProductExistence = async (req, res, next) => {
     }
 
 }
+
+

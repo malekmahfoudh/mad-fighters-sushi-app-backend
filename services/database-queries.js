@@ -21,3 +21,9 @@ export const isProductExists = async (productId)=> {
     const product = await Products.findOne({id:productId}); 
     return product ? true : false ;  
 }
+
+//get a product from the database based on the id 
+export const getProductById =  async (productId) => {
+    const product = await Products.findOne({id:productId}); 
+    return product ; 
+}

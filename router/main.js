@@ -2,6 +2,7 @@ import { Router} from "express";
 export const router = Router();
 import { getMenu } from "../services/database-queries.js";
 import { checkProductExistence, validateOrderInput } from "../middleware/data_validation.js";
+import { getOrderProductsInfo } from "../middleware/get_products_info.js";
 
 
 //shows all the products in database 
@@ -16,28 +17,15 @@ router.get('/menu', async (req,res)=> {
 
 
 
-//make order expected data 
-// --- {
-//     "order": [
-//         {
-//             "id":"655bf61a228445011a09efebsd"
-//             "Food":"Lax",
-//             "Price":40
-//         },
-//          {
-//             "id":"655bf61a228445011a09efebsdsa"
-//             "Food":"Bastrami",
-//             "Price":124
-//         }
-//       ]
-//--- }
 
-router.post('/order',validateOrderInput,checkProductExistence,async (req,res)=> {
+//api/order Make an order 
+
+router.post('/order',validateOrderInput,checkProductExistence,getOrderProductsInfo,async (req,res)=> {
     const body = req.body;
-
-    
+    console.log(body);
     res.json({
-        message:body
+        success:true,
+        message:"Your order has been added successfully! ",
     })
 })
 //order status 
