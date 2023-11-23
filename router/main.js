@@ -1,7 +1,7 @@
 import { Router} from "express";
 export const router = Router();
 
-import { getMenu } from "../services/database-queries.js";
+import { getMenu, getOrderById } from "../services/database-queries.js";
 import { checkProductExistence, validateOrderInput } from "../middleware/order/data_validation.js";
 import { getOrderProductsInfo } from "../middleware/order/get_products_info.js";
 import { loggedUserCheck } from "../middleware/order/loggedUserCheck.js";
@@ -44,8 +44,7 @@ router.post('/order', validateOrderInput, checkProductExistence, getOrderProduct
             success: true,
             message: "Your order has been added successfully!",
             theOrder: {
-                order_id: order.order_id,
-                title: order.title,
+                orderNumber: order.orderNumber,
                 totalPrice: order.totalPrice
             }
         });
@@ -53,6 +52,31 @@ router.post('/order', validateOrderInput, checkProductExistence, getOrderProduct
         res.status(500).json({
             success: false,
             message: "Failed to add the order to the database.",
+            error: error.message
+        });
+    }
+});
+
+//show the status of the order
+router.get('/order/status/:orderNumber', async (req, res) => {
+    const orderNumber = req.params.orderNumber;
+    try {
+        const order = await getOrderById(orderNumber);
+        if (order) {
+            res.json({
+                success: true,
+                order: order
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: "Order not found."
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch the order.",
             error: error.message
         });
     }

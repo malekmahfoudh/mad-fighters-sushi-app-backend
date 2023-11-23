@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import {v1 as uuidv1} from "uuid";
+import { orderNumberGen } from "../utils/generators.js";
 
 const orderSchema =   mongoose.Schema({
     user: {
@@ -19,7 +20,10 @@ const orderSchema =   mongoose.Schema({
     },
     status: {
         type:String, 
-    }
+    },
+    orderNumber: {
+        type:String
+    } 
 }, {timestamps:true});
 
 
@@ -27,6 +31,7 @@ const orderSchema =   mongoose.Schema({
 orderSchema.pre("save", async function (next) {
     try {
         this.order_id = uuidv1();
+        this.orderNumber = orderNumberGen(10);
         this.status = "pending";
         next();
     } catch (error) {
