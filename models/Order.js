@@ -23,8 +23,9 @@ const orderSchema =   mongoose.Schema({
     },
     orderNumber: {
         type:String
-    } 
-}, {timestamps:true});
+    },
+    createdAt: { type: Date, default: new Date().toLocaleString() }
+});
 
 
 //middleware to create order id and date

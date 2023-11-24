@@ -1,11 +1,10 @@
 import { Router} from "express";
 export const router = Router();
-
 import { getMenu, getOrderById } from "../services/database-queries.js";
 import { checkProductExistence, validateOrderInput } from "../middleware/order/data_validation.js";
 import { getOrderProductsInfo } from "../middleware/order/get_products_info.js";
 import { loggedUserCheck } from "../middleware/order/loggedUserCheck.js";
-import { calculateTotalPrice } from "../utils/calculations.js";
+import { calculateTotalPrice, isLocked } from "../utils/calculations.js";
 import { Order } from "../models/Order.js";
 
 
@@ -62,10 +61,19 @@ router.get('/order/status/:orderNumber', async (req, res) => {
     const orderNumber = req.params.orderNumber;
     try {
         const order = await getOrderById(orderNumber);
+        const orderUpdate = {
+                user: order.user,
+                status: isLocked(order.createdAt) ,
+                totalPrice: order.totalPrice,
+                createdAt: order.createdAt,
+                order_id: order.order_id,
+                orderNumber: order.orderNumber,
+                order:order.order,
+        }
         if (order) {
             res.json({
                 success: true,
-                order: order
+                order: orderUpdate
             });
         } else {
             res.status(404).json({
