@@ -8,10 +8,10 @@ const PORT = process.env.PORT || 3001 ;
 
 //connecting to the Database 
 connectDb();
+app.use(cors({origin:'*'})); 
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cors({origin:'*'})); 
 
 //the api main routes 
 app.use('/api',main);
