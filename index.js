@@ -3,18 +3,19 @@ import 'dotenv/config';
 import { connectDb } from "./configs/db.js";
 import { router as main} from "./router/main.js";
 const app = express();
-import cors from "cors";
 const PORT = process.env.PORT || 3001 ; 
+import cors from 'cors';
+
+
 
 //connecting to the Database 
 connectDb();
 app.use(cors({origin:'*'})); 
-
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-
 //the api main routes 
 app.use('/api',main);
+
+app.use(express.urlencoded({extended:true}));
 
 
 // wrong url input given from the user 

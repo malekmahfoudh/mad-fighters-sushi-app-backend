@@ -14,7 +14,7 @@ const orderSchema =   mongoose.Schema({
         type:Number,
         required:true  
     },
-    order: {
+    products: {
         type:Array,
         required:true  
     },
@@ -24,8 +24,10 @@ const orderSchema =   mongoose.Schema({
     orderNumber: {
         type:String
     },
-    createdAt: { type: Date, default: new Date().toLocaleString() }
-});
+    comment: {
+        type:String
+    },
+},{timestamps:true});
 
 
 //middleware to create order id and date

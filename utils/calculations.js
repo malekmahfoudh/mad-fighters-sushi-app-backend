@@ -9,10 +9,11 @@ export const calculateTotalPrice = (products) =>  {
 
 
 
-export const  isLocked = (createdAt) =>  {
-    const _createdAt = new Date(createdAt).getTime(); 
-    const result =  Date.now() - _createdAt; 
 
-  const timeDifference = ((new Date(result).getHours()) * 60 + new Date(result).getMinutes());
-  return timeDifference > 2 ? true: false;
+export const isLocked = (createdAt) => {
+    const _createdAt = new Date(createdAt).getTime();
+    const now = new Date().getTime();
+    const difference = now - _createdAt;
+    const result = (difference / 1000) / 60; // convert millis to minutes
+    return result.toFixed(1) > 2 ? true : false; // return true if the order is older than 2 minutes
 }

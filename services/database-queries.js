@@ -8,7 +8,7 @@ import { Products} from "../models/Products.js";
 export const getMenu = async ()=> {
     //get all products from the database
     try {
-        const products = await Products.find({});
+        const products = await Products.find({}, {_id:0, __v:0});
         return products; 
 
     } catch (error) {
@@ -25,7 +25,7 @@ export const isProductExists = async (productId)=> {
 
 //get a product from the database based on the id 
 export const getProductById =  async (productId) => {
-    const product = await Products.findOne({id:productId},{_id:0, __v:0}); 
+    const product = await Products.findOne({id:productId},{_id:0, __v:0,updatedAt:0}); 
     return product ; 
 }
 
@@ -33,6 +33,6 @@ export const getProductById =  async (productId) => {
 export const getOrderById = async (orderNumber) => {
     
     // get the order from the database and exclude the _id and __v fields
-    const order = await Order.findOne({orderNumber:orderNumber},{_id:0, __v:0});
+    const order = await Order.findOne({orderNumber:orderNumber},{_id:0, __v:0,updatedAt:0});
     return order;
 }

@@ -2,14 +2,14 @@ import { isProductExists } from "../../services/database-queries.js";
 
 export const validateOrderInput = (req,res,next)=> {
     const body = req.body; 
-    if(!body.hasOwnProperty('order')){
+    if(!body.hasOwnProperty('products')){
         res.status(401).json(
             {
                 success:false,
-                message:"Please make sure you have the \"order\" property type array  in your input  "
+                message:"Please make sure you have the \"products\" property type array  in your input  "
             }
         )
-    } else if(body.order.length <= 0 ){
+    } else if(body.products.length <= 0 ){
         res.status(401).json(
             {
                 success:false,
@@ -24,7 +24,7 @@ export const validateOrderInput = (req,res,next)=> {
 
 // check the products  existens in the database 
 export const checkProductExistence = async (req, res, next) => {
-    const order = req.body?.order; //order array 
+    const order = req.body?.products; //order array 
     let undefinedProducts = [];
 
 
@@ -41,10 +41,9 @@ export const checkProductExistence = async (req, res, next) => {
 
     //Here we check if the array has a content otherwise it passes the request 
     if (undefinedProducts.length > 0 && !undefinedProducts.includes(undefined)) {
-        console.log(undefinedProducts);
         res.status(401).json({
             success: false,
-            message: 'This products IDs doesn\'t exists in the DB, please make sure you have right data input! ',
+            message: ' These product IDs don\'t exist in the DB, please make sure you have the right data input! ',
             TheWrongIds: undefinedProducts
         })
     } else if (undefinedProducts.includes(undefined)) {

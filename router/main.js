@@ -6,6 +6,7 @@ import { getOrderProductsInfo } from "../middleware/order/get_products_info.js";
 import { loggedUserCheck } from "../middleware/order/loggedUserCheck.js";
 import { calculateTotalPrice, isLocked } from "../utils/calculations.js";
 import { Order } from "../models/Order.js";
+import { timeConversion } from "../utils/conversion.js";
 
 
 //shows all the products in the menu
@@ -33,12 +34,13 @@ router.post('/order', validateOrderInput, checkProductExistence, getOrderProduct
     // Create a new order object
     const order = new Order({
         ...body,
-        totalPrice: calculateTotalPrice(body.order)
+        comment: body.comment,
+        totalPrice: calculateTotalPrice(body.products)
     })
 
     // Save the order to the database
     try {
-        await order.save();
+       await order.save();
         res.json({
             success: true,
             message: "Your order has been added successfully!",
@@ -63,12 +65,14 @@ router.get('/order/status/:orderNumber', async (req, res) => {
         const order = await getOrderById(orderNumber);
         const orderUpdate = {
                 user: order.user,
-                status: isLocked(order.createdAt) ,
+                locked: isLocked(order.createdAt),
+                createdAt: timeConversion(order.createdAt),
                 totalPrice: order.totalPrice,
-                createdAt: order.createdAt,
                 order_id: order.order_id,
                 orderNumber: order.orderNumber,
-                order:order.order,
+                comment: order.comment,
+                products:order.products,
+
         }
         if (order) {
             res.json({
