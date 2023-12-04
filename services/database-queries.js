@@ -36,3 +36,14 @@ export const getOrderById = async (orderNumber) => {
     const order = await Order.findOne({orderNumber:orderNumber},{_id:0, __v:0,updatedAt:0});
     return order;
 }
+
+//update the order in the database
+export const updateOrder = async (orderNumber,orderUpdates) => {
+    const order = await Order.updateOne({orderNumber:orderNumber},orderUpdates,{new:true});
+    return order; 
+}; 
+
+export const deleteOrder = async (orderNumber) => {
+    const order = await Order.deleteOne({orderNumber:orderNumber});
+    return order; 
+}
