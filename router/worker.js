@@ -1,5 +1,4 @@
-import {  Router} from "express";
-import { Order } from "../models/Order.js";
+import { Router} from "express";
 import { getAllOrders, getOrderById, updateOrderStatus } from "../services/database-queries.js";
 export const router = Router();
 
