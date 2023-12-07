@@ -58,11 +58,11 @@ res.status(401).json({
 });
 
 //shows all ready orders for workers 
-router.get('/orders/ready', async (req, res) => {
+router.get('/orders/done', async (req, res) => {
     const {user,pass} = req.query;
     if(user === 'worker' && pass === '0000'){
 try {
-    const orders = await getAllOrders('ready');
+    const orders = await getAllOrders('done');
     res.json({
         success: true,
         orders: orders
@@ -95,6 +95,12 @@ router.put("/orders/verify/:orderNumber", async (req, res) => {
         res.json({
           success: true,
           message: "Order verified successfully.",
+        });
+      }else if(getOrder.status === "verified"){
+        await updateOrderStatus(orderNumber, "done");
+        res.json({
+          success: true,
+          message: "The order is ready to be delivered.",
         });
       } else {
         res.status(400).json({
