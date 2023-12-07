@@ -2,7 +2,7 @@
   "name": "mad-fighters-sushi-app-backend",
   "version": "1.0.0",
   "engines": {
-    "node": "=>15.0.0"
+    "node": ">=15.0.0"
   },
   "description": "Sushi_vibes_API",
   "main": "index.js",
