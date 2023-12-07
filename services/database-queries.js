@@ -47,3 +47,13 @@ export const deleteOrder = async (orderNumber) => {
     const order = await Order.deleteOne({orderNumber:orderNumber});
     return order; 
 }
+
+export const getAllOrders = async (status) => {
+    const orders = await Order.find({ status: status },{_id:0, __v:0,updatedAt:0,order_id:0,createdAt:0,user:0,products:0});
+    return orders;
+}
+
+export const updateOrderStatus = async (orderNumber,updatedStatus) => {
+    const order =  await Order.updateOne({orderNumber:orderNumber},{status:updatedStatus});
+    return order;
+}
