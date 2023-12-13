@@ -1,5 +1,7 @@
 import { Router} from "express";
-import { getAllOrders, getOrderById, updateOrderStatus } from "../services/database-queries.js";
+import {  findCounter, getAllOrders, getAllOrdersToday, getOrderById, updateCounter, updateOrderStatus } from "../services/database-queries.js";
+import { getTodaysOrders } from "../utils/calculations.js";
+import { Counter } from "../models/Order_counter.js";
 export const router = Router();
 
 
@@ -12,10 +14,10 @@ router.get('/orders', async (req, res) => {
         const {user,pass} = req.query;
         if(user === 'worker' && pass === '0000'){
     try {
-        const orders = await getAllOrders('pending');
+        const orders = await getAllOrdersToday();
         res.json({
             success: true,
-            orders: orders
+            orders: orders.filter(order => order.status === 'pending'),
         });
 
     } catch (error) {
@@ -37,10 +39,11 @@ router.get('/orders/verified', async (req, res) => {
     const {user,pass} = req.query;
     if(user === 'worker' && pass === '0000'){
 try {
-    const orders = await getAllOrders('verified');
-    res.json({
+    const orders = await getAllOrdersToday();
+
+    res.json({ 
         success: true,
-        orders: orders
+        orders: orders.filter(order => order.status === 'verified'),
     });
 
 } catch (error) {
@@ -62,10 +65,10 @@ router.get('/orders/done', async (req, res) => {
     const {user,pass} = req.query;
     if(user === 'worker' && pass === '0000'){
 try {
-    const orders = await getAllOrders('done');
+    const orders = await getAllOrdersToday();
     res.json({
         success: true,
-        orders: orders
+        orders: orders.filter(order => order.status === 'done'),
     });
 
 } catch (error) {
@@ -121,3 +124,4 @@ router.put("/orders/verify/:orderNumber", async (req, res) => {
     });
   }
 });
+

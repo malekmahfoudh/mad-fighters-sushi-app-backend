@@ -1,5 +1,7 @@
 import { Order } from "../models/Order.js";
+import { Counter } from "../models/Order_counter.js";
 import { Products} from "../models/Products.js";
+import { getTodaysOrders } from "../utils/calculations.js";
 
 
 
@@ -49,11 +51,41 @@ export const deleteOrder = async (orderNumber) => {
 }
 
 export const getAllOrders = async (status) => {
-    const orders = await Order.find({ status: status },{_id:0, __v:0,updatedAt:0,order_id:0,createdAt:0,user:0,products:0});
+    const orders = await Order.find({ status: status },{_id:0, __v:0,updatedAt:0,order_id:0,user:0,products:0});
     return orders;
+}
+
+export const getAllOrdersToday = async () => {
+    const orders = await Order.find({},{_id:0, __v:0,updatedAt:0,order_id:0,user:0,products:0});
+    return getTodaysOrders(orders);
 }
 
 export const updateOrderStatus = async (orderNumber,updatedStatus) => {
     const order =  await Order.updateOne({orderNumber:orderNumber},{status:updatedStatus});
     return order;
+}
+
+export const findCounter = async () => {
+    const counter = await Counter.findOne({type:'counter'},{_id:0, __v:0,updatedAt:0,type:0});
+    return counter;
+}
+
+export const updateCounter = async (counter) => {
+    try {
+        const isCounterExists = await Counter.findOne({type:'counter'});
+        if(!isCounterExists){
+          const counter = new Counter({
+            seq: 0,
+            type:'counter'
+          });
+          await counter.save();
+        }else {
+          const orderCounter = await Counter.updateOne({type:'counter'},{seq:counter});
+         return orderCounter;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+   
+
 }
