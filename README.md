@@ -78,7 +78,7 @@
 ## View all orders
 - **Endpoint:** `/api/worker/orders?user=worker&pass=0000`
 - **Method:** `GET`
-- **Description:** View all incoming orders with **"status: pending"**.
+- **Description:** View all incoming orders with **"status: pending"** within the last 12 hours .
 
 ## View verified orders
 - **Endpoint:** `/api/worker/orders/verified?user=worker&pass=0000`
