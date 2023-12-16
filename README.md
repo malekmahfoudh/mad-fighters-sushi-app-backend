@@ -36,7 +36,7 @@
 ## Update order
 - **Endpoint:** `/api/order/update/{orderNumber}`
 - **Method:** `PUT`
-- **Description:** Update existing order. 
+- **Description:** Update existing order, The Customer can update in first ***2*** minutes after the order has been placed. 
 - **Body:**
     ```
         {
